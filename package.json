@@ -1,0 +1,31 @@
+{
+  "name": "jest-workshop",
+  "version": "1.0.0",
+  "description": "Nordic Testing Days 2019",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevTesterThings/JestWSCodeX.git"
+  },
+  "keywords": [
+    "Nordic",
+    "Testing",
+    "Days"
+  ],
+  "author": "Blanche Carstens and Calvin Moore",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevTesterThings/JestWSCodeX/issues"
+  },
+  "homepage": "https://github.com/DevTesterThings/JestWSCodeX#readme",
+  "dependencies": {
+    "@babel/preset-env": "^7.8.6",
+    "amqplib": "^0.5.5",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "promise-while-loop": "^1.0.1"
+  }
+}
