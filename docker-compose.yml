@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   rabbitmq:
-    image:  docker-registry.public-upstream.gray.net/rabbitmq:3.7-management-alpine
+    image: rabbitmq:3.10-rc-management-alpine
     hostname: rabbitmq
     volumes:
       - ./rabbitmq/definitions.json:/opt/rabbitmq/definitions.json
@@ -16,8 +16,7 @@ services:
     depends_on:
       rabbitmq:
         condition: service_started
-    image: docker-registry.public-upstream.gray.net/node:13.6.0-alpine3.11
-    user: node
+    image: node
     volumes:
     - .:/service
     working_dir: /service

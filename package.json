@@ -4,7 +4,7 @@
   "description": "Nordic Testing Days 2019",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": {
     "type": "git",
