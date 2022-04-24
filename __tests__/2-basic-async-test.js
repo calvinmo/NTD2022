@@ -14,14 +14,29 @@ describe('basic async', () => {
     await rabbit.close();
   });
 
-  test('test 2', async () => {
+  test('naive approach', async () => {
     const message = { message: 'hello' };
     new Promise(async () => {
       await new Promise(res => setTimeout(res, 1000));
       queue.sendMessage(message);
     })
-    const returnedMessage = JSON.parse((await rabbit.channel.get('queue')).content.toString());
-    //const returnedMessage = await queue.readUntilAnyOf('queue');
-    expect(returnedMessage).toEqual(message);
+    JSON.parse((await rabbit.channel.get('queue')).content.toString());
+    /*let receivedMessage;
+    while (!receivedMessage) {
+      receivedMessage = await rabbit.channel.get('queue');
+    }
+    expect(JSON.parse(receivedMessage.content.toString())).toEqual(message);*/
+  });
+
+  test('callback', done => {
+    const message = { message: 'hello' };
+    new Promise(async () => {
+      await new Promise(res => setTimeout(res, 1000));
+      queue.sendMessage(message);
+    })
+    rabbit.channel.consume(queue.name, received => {
+      received && expect(JSON.parse(received.content.toString())).toEqual(message);
+      done();
+    });
   });
 });
