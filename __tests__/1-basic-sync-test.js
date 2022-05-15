@@ -2,7 +2,7 @@ import amqp from 'amqplib';
 
 describe('basic sync', () => {
   let connection, channel;
-  const queueName = 'test';
+  const queueName = 'asyncworkshop';
 
   beforeAll(async () => {
     connection = await amqp.connect(process.env.RABBITMQ_URL);
@@ -16,7 +16,7 @@ describe('basic sync', () => {
   });
 
   test('test 1', async () => {
-    const message = 'hello';
+    const message = 'hello ntd friends';
     channel.sendToQueue(queueName, Buffer.from(message));
     const returnedMessage = (await channel.get(queueName)).content.toString();
     expect(returnedMessage).toEqual(message);
