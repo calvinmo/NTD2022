@@ -1,9 +1,8 @@
-version: '2.4'
+version: '3'
 
 services:
   rabbitmq:
-    image: rabbitmq:3.10-rc-management-alpine
-    hostname: rabbitmq
+    image: rabbitmq:3.10.1-management-alpine
     volumes:
       - ./rabbitmq/definitions.json:/opt/rabbitmq/definitions.json
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
@@ -12,13 +11,18 @@ services:
       - "15672:15672"
     environment:
       - RABBITMQ_NAME=rabbitmq
-  tests:
+  consumer:
+    image: calvinmo/ntd2022
     depends_on:
-      rabbitmq:
-        condition: service_started
+      - rabbitmq
+    environment:
+      - RABBIT_URL=amqp://username:password@rabbitmq
+  tests:
     image: node
+    depends_on:
+      - consumer
     volumes:
     - .:/service
     working_dir: /service
     environment:
-      - RABBITMQ_URI=amqp://deploy_user:guest@rabbitmq/test
+      - RABBITMQ_URL=amqp://username:password@rabbitmq

@@ -1,23 +1,24 @@
-import Rabbit from '../lib/rabbit';
+import amqp from 'amqplib';
 
 describe('basic sync', () => {
-  let rabbit, queue;
+  let connection, channel;
+  const queueName = 'test';
 
   beforeAll(async () => {
-      rabbit = new Rabbit();
-      await rabbit.reset();
-      queue = await rabbit.assertQueue('queue');
+    connection = await amqp.connect(process.env.RABBITMQ_URL);
+    channel = await connection.createChannel();
+    channel.assertQueue(queueName);
   });
 
   afterAll(async () => {
-    await rabbit.channel.deleteQueue(queue.name);
-    await rabbit.close();
+    await channel.deleteQueue(queueName);
+    await connection.close()
   });
 
   test('test 1', async () => {
-    const message = { message: 'hello' };
-    await queue.sendMessage(message);
-    const returnedMessage = JSON.parse((await rabbit.channel.get('queue')).content.toString());
+    const message = 'hello';
+    channel.sendToQueue(queueName, Buffer.from(message));
+    const returnedMessage = (await channel.get(queueName)).content.toString();
     expect(returnedMessage).toEqual(message);
   });
 });

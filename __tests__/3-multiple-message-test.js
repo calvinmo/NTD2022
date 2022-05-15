@@ -1,29 +1,33 @@
-import Rabbit from '../lib/rabbit';
+import amqp from 'amqplib';
 
-describe('basic async', () => {
-  let rabbit, queue;
+describe('multiple messages', () => {
+  let connection, channel;
+  const queueName = 'test';
 
   beforeAll(async () => {
-      rabbit = new Rabbit();
-      await rabbit.reset();
-      queue = await rabbit.assertQueue('queue');
+    connection = await amqp.connect(process.env.RABBITMQ_URL);
+    channel = await connection.createChannel();
+    channel.assertQueue(queueName);
   });
 
   afterAll(async () => {
-    await rabbit.channel.deleteQueue(queue.name);
-    await rabbit.close();
+    await channel.deleteQueue(queueName);
+    await connection.close()
   });
 
   test('callback', done => {
     let count = 0;
-    const message1 = { id: 'message1' };
-    const message2 = { id: 'message2' };
-    queue.sendMessage(message1);
-    queue.sendMessage(message2);
-    rabbit.channel.consume(queue.name, received => {
-      received && expect([message1, message2]).toContainEqual(JSON.parse(received.content.toString()));
-      count++;
-      count === 2 && done();
+    const message1 = 'message1';
+    const message2 = 'message2';
+    channel.sendToQueue(queueName, Buffer.from(message1));
+    channel.sendToQueue(queueName, Buffer.from(message2));
+    channel.consume(queueName, received => {
+      if (received) {
+        channel.ack(received);
+        expect([message1, message2]).toContainEqual(received.content.toString());
+        count++;
+        count === 2 && done();
+      }
     });
   });
 });
