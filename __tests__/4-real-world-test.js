@@ -19,15 +19,19 @@ describe('real world', () => {
   });
 
   test('real world', async done => {
-    const message = 'hello';
-    channel.sendToQueue(incomingQueueName, Buffer.from(message));
+    let count = 0;
+    const message1 = 'message1';
+    const message2 = 'message2';
+    channel.sendToQueue(incomingQueueName, Buffer.from(message1));
+    channel.sendToQueue(incomingQueueName, Buffer.from(message2));
     channel.consume(outgoingQueueName, received => {
       if (received) {
         channel.ack(received);
-        expect(received.content.toString()).toEqual(message);
+        expect([message1, message2]).toContainEqual(received.content.toString());
         expect(received.properties.headers.processed).toBeTruthy();
-        done();
+        count++;
+        count === 2 && done();
       }
     });
-  }, 20000);
+  });
 });
