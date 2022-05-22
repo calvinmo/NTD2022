@@ -14,8 +14,8 @@ An interactive workshop about testing asynchronous messaging systems
 
 ## Setup
 ```bash
-$ git clone git@github.com:calvinmo/NTD2020.git
-$ cd NTD2020
+$ git clone git@github.com:calvinmo/NTD2022.git
+$ cd NTD2022
 $ docker-compose run tests npm ci
 $ docker-compose up -d rabbitmq consumer
 ```

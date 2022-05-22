@@ -18,7 +18,7 @@ describe('real world', () => {
     await connection.close()
   });
 
-  test('real world', async done => {
+  test('real world', done => {
     let count = 0;
     const message1 = 'message1';
     const message2 = 'message2';
