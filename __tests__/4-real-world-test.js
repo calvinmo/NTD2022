@@ -15,7 +15,7 @@ describe('real world', () => {
 
   afterAll(async () => {
     await channel.deleteQueue(outgoingQueueName);
-    await connection.close()
+    await connection.close();
   });
 
   test('real world', done => {

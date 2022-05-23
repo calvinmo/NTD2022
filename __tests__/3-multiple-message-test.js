@@ -12,7 +12,7 @@ describe('multiple messages', () => {
 
   afterAll(async () => {
     await channel.deleteQueue(queueName);
-    await connection.close()
+    await connection.close();
   });
 
   test('callback', done => {

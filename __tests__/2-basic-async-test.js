@@ -12,20 +12,20 @@ describe('basic async', () => {
 
   afterAll(async () => {
     await channel.deleteQueue(queueName);
-    await connection.close()
+    await connection.close();
   });
 
   test('polling', async () => {
     const message = 'hello';
     new Promise(async () => {
-      await new Promise(res => setTimeout(res, 10000));
+      await new Promise(res => setTimeout(res, 1000));
       channel.sendToQueue(queueName, Buffer.from(message));
     })
     let receivedMessage;
     receivedMessage = await channel.get('test') || { content: ''};
     //while (!receivedMessage) { receivedMessage = await channel.get(queueName); }
     expect(receivedMessage.content.toString()).toEqual(message);
-  }, 15000);
+  });
 
   test('callback', done => {
     const message = 'hello';
@@ -34,7 +34,6 @@ describe('basic async', () => {
       channel.sendToQueue(queueName, Buffer.from(message));
     })
     channel.consume(queueName, received => {
-      channel.ack(received);
       received && expect(received.content.toString()).toEqual(message);
       done();
     });

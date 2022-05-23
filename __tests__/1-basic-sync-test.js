@@ -12,7 +12,7 @@ describe('basic sync', () => {
 
   afterAll(async () => {
     await channel.deleteQueue(queueName);
-    await connection.close()
+    await connection.close();
   });
 
   test('test 1', async () => {
