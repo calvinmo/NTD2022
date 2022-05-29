@@ -2,15 +2,15 @@ import amqp from 'amqplib';
 
 describe('real world', () => {
   let connection, channel;
-  const incomingQueueName = 'incoming'
-  const outgoingQueueName = 'outgoing'
+  const incomingQueueName = 'incoming';
+  const outgoingQueueName = 'outgoing';
 
   beforeAll(async () => {
     connection = await amqp.connect(process.env.RABBITMQ_URL);
     channel = await connection.createChannel();
       channel.assertQueue(incomingQueueName);
       channel.assertQueue(outgoingQueueName);
-      await channel.bindQueue(outgoingQueueName, 'amq.topic', '#')
+      await channel.bindQueue(outgoingQueueName, 'amq.topic', '#');
   });
 
   afterAll(async () => {

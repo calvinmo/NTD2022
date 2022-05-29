@@ -18,9 +18,9 @@
   "author": "Blanche Carstens and Calvin Moore",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DevTesterThings/JestWSCodeX/issues"
+    "url": "https://github.com/calvinmo/NTD2022"
   },
-  "homepage": "https://github.com/DevTesterThings/JestWSCodeX#readme",
+  "homepage": "https://github.com/calvinmo/NTD2022",
   "dependencies": {
     "@babel/preset-env": "^7.17.10",
     "amqplib": "^0.9.0",

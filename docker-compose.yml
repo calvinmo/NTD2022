@@ -11,12 +11,6 @@ services:
       - "15672:15672"
     environment:
       - RABBITMQ_NAME=rabbitmq
-  consumer:
-    image: calvinmo/ntd2022
-    depends_on:
-      - rabbitmq
-    environment:
-      - RABBIT_URL=amqp://username:password@rabbitmq
   tests:
     image: node
     depends_on:
@@ -26,3 +20,9 @@ services:
     working_dir: /service
     environment:
       - RABBITMQ_URL=amqp://username:password@rabbitmq
+  consumer:
+    image: calvinmo/ntd2022
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBIT_URL=amqp://username:password@rabbitmq

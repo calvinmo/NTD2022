@@ -21,4 +21,5 @@ $ docker-compose up -d rabbitmq consumer
 ```
 
 ## Workshop steps
-1. `docker-compose run tests npm run test -- 1 --watchAll`
+1. http://localhost:15672/
+2. `docker-compose run tests npm run test -- 1 --watchAll`
